@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- 
+      This is an HTML comment
+      You can write text in a comment and the content won't be visible in the page
+    -->
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="https://glitch.com/favicon.ico" />
+
+    <!--
+      This is the page head - it contains info the browser uses
+      Like the title, which appears on the browser tab but not inside the page
+      Further down you'll see the content that displays in the page
+    -->
+    <title>Whack-A-Mole!</title>
+
+    <!-- The website stylesheet -->
+    <link rel="stylesheet" href="/style.css" />
+
+    <!-- The website JavaScript files -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="js/aframe-spritesheet-animation.js"></script>
+    <script src="js/aframe-components.js"></script>
+    <script src="js/gameConfig.js"></script>
+    <script src="js/update.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/mole.js"></script>
+  </head>
+  <body>
+    <!--
+      The body includes the content you see in the page
+      Each element is defined using tags, like this <div></div>
+      The attributes like class="wrapper" let us style elements in the CSS
+    -->
+    <div class="wrapper">
+      <a-scene embedded vr-mode-ui="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: .clickable" renderer="antialias: true; maxCanvasWidth: 1024;maxCanvasHeight: 768;" id="ascene">
+        <a-assets>
+          <img id="moleAnim" src="https://cdn.glitch.global/a4da889a-483e-496f-9e1c-7ee6fce73682/mole.png?v=1695387888463" crossorigin="anonymous"/>
+          <img id="bgSky" src="https://cdn.glitch.global/a4da889a-483e-496f-9e1c-7ee6fce73682/grass-bg.png?v=1695377476623" crossorigin="anonymous"/>
+          <a-mixin id="hide" 
+                   animation__dn="property:scale.y;to:0.1;dur:750;dir:normal;loop:1;easing:easeOutSine;startEvents:hide;"
+                   animation__die="property:components.material.material.color; type: color; to: red; startEvents: die; dur: 100;"
+                   animation__liv="property:components.material.material.color; type: color; to: white; startEvents: live; dur: 10;"
+                   animation__snicker="property:components.material.material.color; type: color; to: darkgray; startEvents: snicker; dur: 100;"
+                   ></a-mixin>
+        </a-assets>
+
+        <!-- Game entities are loaded here-->        
+        <a-sphere id="center" class="center clickable" position="0 0 -10" radius="0.15" handle-events color="#5E2DF2"></a-sphere>
+        <a-entity id="molePositioner" position="0 0 -10"><!--Used for normalization of mole position independent of scale-->
+          <a-image  mixin="hide" id="mole" class="mole" width="1" height="1" handle-events scale="1 1 1" src="#moleAnim" material="blending: normal; transparent: true; alphaTest: 0.01; opacity:0.0" spritesheet-animation="rows: 1; columns: 5; frameDuration: 0.10; loop: true;"></a-image>
+        </a-entity>
+        
+        <a-sky id="asky" src="#bgSky" repeat="32"></a-sky><!--Grassy background-->
+        <a-camera id="camera" class="cameraMain" camera="active: true" position="0 0 0" wasd-controls="enabled:false" look-controls="enabled:false"></a-camera>
+       </a-scene>
+    </div>
+    <!-- The footer holds our remix button -->
+    <footer class="footer">
+      <div class="fa-links">
+        Something went wrong. Check the Console for errors.
+      </div>
+      <div class="warn blink">
+        Please do not move the mouse outside the central circle before the mole is displayed.
+      </div>
+      <div class="instructions">
+        Read the <a href="./README.md">README.md</a> for details.<br>
+        Consider replacing the text in this section with instructions for the participant
+      </div>
+    </footer>
+  </body>
+</html>
